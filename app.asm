@@ -134,14 +134,16 @@ phoneInput:
 phoneVal1:
 	slt $t0, $s1, $v0
 	beq $t0, $zero, phoneErr
-	slt $t0, $v0, $s2
+	sle $t0, $v0, $s2
 	beq $t0, $zero, phoneErr
 
 phoneGetRandom:	
 	li $v0, 43
 	syscall
 	
-	c.le.s $f0, $f8 # random <= 0.40 si no es menor o igual entonces vuelve a sacar el número
+	# Número aleatorio va desde 0.0 hasta 1.0
+	
+	c.le.s $f0, $f9 # hacer que el número sea menor que 0.40
 	bc1f phoneGetRandom
 
 	c.lt.s $f0, $f5 # random < 0.10; si random es menor entonces está mal y tiene que volver a sacar un número aleatorio
@@ -162,6 +164,8 @@ phonePrintCost:
 	la	$a0, phnOutput
 	syscall
 	
+	round.w.s $v0, $
+	
 	# Print cost in float
 	mov.s $f12, $f10
 	li $v0,2
@@ -180,14 +184,14 @@ phoneCallEnd:
 	la	$a0, phnDur
 	syscall
 	
-phoneChange:
+phoneChange: # Podría retornar al programa principal
 	# Print string phnChan
 	li	$v0,4
 	la	$a0, phnChan
 	syscall
 	
 	# Solo falta restar estos dos números
-	add.s $f12, $f0, $f3
+	sub.s $f12, $f3, $f0
 	li $v0,2
 	syscall	
 	
