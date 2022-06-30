@@ -22,6 +22,8 @@
 		phnMax: .word 999999999
 		cent40: .float 0.4
 		cost: .float 0.00
+		hundred: .float 100.0
+		ten: .float 10.0
 		
 		phnDur: .asciiz "\n\nDuration time hh/mm/ss :"
 		phnChan: .asciiz "\n\nYour change is $" 
@@ -52,6 +54,8 @@ main:
 	lwc1 $f10, cost
 	lw $s1, phnMin
 	lw $s2, phnMax
+	lwc1 $f11, hundred 
+	lwc1 $f13, ten
 	
 centsInput:
 	# Print string input
@@ -118,6 +122,12 @@ centEnd:
 	
 	# Print money in float
 	mov.s $f12, $f3
+	
+	mul.s $f12, $f12, $f11 # multiphy by 100
+	trunc.w.s $f12, $f12
+	cvt.s.w $f12, $f12
+	div.s $f12, $f12, $f11 # dividing by 100
+	
 	li $v0,2
 	syscall	
 	
@@ -140,16 +150,20 @@ phoneVal1:
 phoneGetRandom:	
 	li $v0, 43
 	syscall
-	
 	# Número aleatorio va desde 0.0 hasta 1.0
 	
 	c.le.s $f0, $f9 # hacer que el número sea menor que 0.40
 	bc1f phoneGetRandom
-
+	
 	c.lt.s $f0, $f5 # random < 0.10; si random es menor entonces está mal y tiene que volver a sacar un número aleatorio
-	mov.s $f10, $f0
-	bc1f phonePrintCost
-	j phoneGetRandom
+	bc1t phoneGetRandom	
+	
+phoneCostRoundNumber:
+	mul.s $f10, $f0, $f13 # multiphy by 100
+	round.w.s $f10, $f10
+	cvt.s.w $f10, $f10
+	div.s $f10, $f10, $f13 # dividing by 100
+	j phonePrintCost
 	
 phoneErr:
 	# Print string phnErr
@@ -163,9 +177,7 @@ phonePrintCost:
 	li	$v0,4
 	la	$a0, phnOutput
 	syscall
-	
-	round.w.s $v0, $
-	
+
 	# Print cost in float
 	mov.s $f12, $f10
 	li $v0,2
@@ -191,7 +203,13 @@ phoneChange: # Podría retornar al programa principal
 	syscall
 	
 	# Solo falta restar estos dos números
-	sub.s $f12, $f3, $f0
+	sub.s $f12, $f3, $f10 # resta
+	
+	mul.s $f12, $f12, $f11 # multiphy by 100
+	round.w.s $f12, $f12
+	cvt.s.w $f12, $f12
+	div.s $f12, $f12, $f11 # dividing by 100
+	
 	li $v0,2
 	syscall	
 	
