@@ -1,10 +1,14 @@
 # "Call-Box program" in MIPS assembly
 	.data
-		start:	.asciiz "Welcome to the Call-Box\n"
-		cntInput:	.asciiz "Enter your cents ($1 = 1.00 cents): "
+		colon: .asciiz ":"
+		zero: .asciiz "0"
+	
+		start:	.asciiz "\nWelcome to the Call-Box\n"
+		cntInput:	.asciiz "Enter your cents (0.05 = 5 cents): "
 		cntCont:	.asciiz "Continue entering cents? (yes 1/ no 0): "
 		cntErr:	.asciiz "Incorrect value, please try again.\nChoose from 0.05, 0.10, 0.25, 0.50, 1.00\n"
-		cntOutput:	.asciiz "\nYou entered $" 
+		cntErr2: .asciiz "You need to enter more than 40 cents\n"
+		cntOutput:	.asciiz "\nYou entered $"
 
 		zerof: .float 0.00
 		money: .float 0.00
@@ -17,6 +21,9 @@
 		phnInput: .asciiz "\n\nEnter your phone number (9 digits): "
 		phnErr: .asciiz "\nWrong number, please try again"
 		phnOutput: .asciiz "\nTotal amount $"
+		phnCall: .asciiz "\nStarting call ...\n"
+		phnCall2: .asciiz "Ringing ...\n"
+		phnCall3: .asciiz "\nCall ended\n"
 		
 		phnMin: .word 99999999
 		phnMax: .word 999999999
@@ -25,9 +32,9 @@
 		hundred: .float 100.0
 		ten: .float 10.0
 		
-		phnDur: .asciiz "\n\nDuration time hh/mm/ss :"
+		phnDur: .asciiz "\n\nDuration time hh/mm/ss: "
 		phnChan: .asciiz "\n\nYour change is $" 
-		phnEnd: .asciiz "\nThanks for using our service"
+		phnEnd: .asciiz "\n\nThanks for using our service\n"
 
 	.text
 	.globl	main
@@ -94,6 +101,14 @@ centVal5:
 centSum:
 	# Sum the values
 	add.s $f3, $f3, $f0
+	c.le.s $f3, $f9
+	bc1f centContinue
+	
+centErr2:
+	li $v0, 4
+	la $a0, cntErr2
+	syscall
+	j centsInput
 	
 centContinue:
 	# Print string continue
@@ -113,7 +128,7 @@ centErr:
 	la	$a0, cntErr
 	syscall
 	j centsInput
-	
+
 centEnd:	
 	# Print string output
 	li	$v0,4
@@ -163,7 +178,7 @@ phoneCostRoundNumber:
 	round.w.s $f10, $f10
 	cvt.s.w $f10, $f10
 	div.s $f10, $f10, $f13 # dividing by 100
-	j phonePrintCost
+	j phoneCall
 	
 phoneErr:
 	# Print string phnErr
@@ -171,6 +186,25 @@ phoneErr:
 	la	$a0, phnErr
 	syscall
 	j phoneInput	
+
+phoneCall:
+	# Print string phnCall
+	li $v0, 4
+	la $a0, phnCall
+	syscall
+	
+	# Print string phnCall2
+	li $v0, 4
+	la $a0, phnCall2
+	syscall
+	
+	li $v0, 32
+	li $a0, 3000
+	syscall
+	
+	li $v0, 4
+	la $a0, phnCall3
+	syscall
 	
 phonePrintCost:
 	# Print string phnOutput
@@ -181,19 +215,85 @@ phonePrintCost:
 	# Print cost in float
 	mov.s $f12, $f10
 	li $v0,2
-	syscall	
-	
-phoneCall:
-
-	# Falta poner la duración de la llamada
-	# Estaba pensando en poner un valor entero aleatorio
-	# Después sumar desde cero hacia ese número
-	# Y después utilizarlo como valor de la llamada en segundos
+	syscall
 	
 phoneCallEnd:
 	# Print string phnDur
 	li	$v0,4
 	la	$a0, phnDur
+	syscall
+	
+phoneHourPrint:	
+	# Print hours
+	li $a1, 24 # from 0 to 24 hours
+	li $v0, 42
+	syscall
+
+	# Compare if less than 10 to print a 0 before
+	move $t1, $a0
+	slti $t0, $t1, 10
+	beq $t0, $zero, hourRandomPrint
+	
+	# Print	string zero
+	li $v0, 4
+	la $a0, zero
+	syscall
+	
+hourRandomPrint:	
+	li $v0, 1
+	move $a0, $t1 # $a0 random int (hour) to print
+	syscall
+
+	# Printing format colon
+	li $v0, 4
+	la $a0, colon
+	syscall
+
+phoneMinutePrint:		
+	# Print minutes
+	li $a1, 60
+	li $v0, 42
+	syscall
+
+	# Compare if less than 10 to print a 0 before
+	move $t1, $a0
+	slti $t0, $t1, 10
+	beq $t0, $zero, minRandomPrint
+	
+	# Print	string zero
+	li $v0, 4
+	la $a0, zero
+	syscall
+	
+minRandomPrint:	
+	li $v0, 1
+	move $a0, $t1 # $a0 random int (hour) to print
+	syscall
+
+	# Printing format colon
+	li $v0, 4
+	la $a0, colon
+	syscall
+
+phoneSecondPrint:
+	# Print seconds
+	li $a1, 60
+	li $v0, 42
+	syscall
+
+	# Compare if less than 10 to print a 0 before
+	move $t1, $a0
+	slti $t0, $t1, 10
+	beq $t0, $zero, secRandomPrint
+	
+	# Print	string zero
+	li $v0, 4
+	la $a0, zero
+	syscall
+	
+secRandomPrint:	
+	li $v0, 1
+	move $a0, $t1 # $a0 random int (hour) to print
 	syscall
 	
 phoneChange: # Podría retornar al programa principal
@@ -211,9 +311,15 @@ phoneChange: # Podría retornar al programa principal
 	div.s $f12, $f12, $f11 # dividing by 100
 	
 	li $v0,2
-	syscall	
-	
+	syscall
+
 exit:
+
+	# Print string phnEnd
+	li $v0, 4
+	la $a0, phnEnd
+	syscall
+
 	# Exit the program
 	li	$v0,10
 	syscall
