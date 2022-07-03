@@ -47,7 +47,15 @@ This is the code, there are comments explaning part of the code. Each section is
 
 First we load the values from the data section to the actual program, so we can reference it later.
 
-Then we validate the input 
+Then we validate the input, comparing it the correct values
+
+![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-18-48-04-image.png)
+
+After that we sum the values and show it to the screen.
+
+![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-18-48-44-image.png)
+
+
 
 
 
