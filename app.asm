@@ -1,8 +1,5 @@
 # "Call-Box program" in MIPS assembly
 	.data
-		colon: .asciiz ":"
-		zero: .asciiz "0"
-	
 		start:	.asciiz "\nWelcome to the Call-Box\n"
 		cntInput:	.asciiz "Enter your cents (0.05 = 5 cents): "
 		cntCont:	.asciiz "Continue entering cents? (yes 1/ no 0): "
@@ -24,6 +21,8 @@
 		phnCall: .asciiz "\nStarting call ...\n"
 		phnCall2: .asciiz "Ringing ...\n"
 		phnCall3: .asciiz "\nCall ended\n"
+		colon: .asciiz ":"
+		zero: .asciiz "0"
 		
 		phnMin: .word 99999999
 		phnMax: .word 999999999
@@ -44,8 +43,6 @@ main:
 	li	$v0,4
 	la	$a0, start
 	syscall
-	
-	# Tambien se puede usar s.s pseudo instrucción para guardar valores decimales en memoria
 	
 	# Load cents values
 	lwc1 $f2, zerof
@@ -75,26 +72,32 @@ centsInput:
 	syscall
 
 centVal0:
+	# Validate if input is equal to 0.0
 	c.eq.s $f0, $f2
 	bc1t centErr
 
 centVal1:
+	# Validate if input is equal to 0.05
 	c.eq.s $f0, $f4
 	bc1t centSum
 	
 centVal2:
+	# Validate if input is equal to 0.10
 	c.eq.s $f0, $f5
 	bc1t centSum
 
 centVal3:
+	# Validate if input is equal to 0.25
 	c.eq.s $f0, $f6
 	bc1t centSum
 
 centVal4:
+	# Validate if input is equal to 0.50
 	c.eq.s $f0, $f7
 	bc1t centSum
 
 centVal5:
+	# Validate if input is equal to 1.0
 	c.eq.s $f0, $f8
 	bc1f centErr
 	
@@ -105,6 +108,7 @@ centSum:
 	bc1f centContinue
 	
 centErr2:
+	# Print string cntErr2 and return to centsInput
 	li $v0, 4
 	la $a0, cntErr2
 	syscall
@@ -163,17 +167,19 @@ phoneVal1:
 	beq $t0, $zero, phoneErr
 
 phoneGetRandom:	
+	# Get random float from 0.0 to 1.0
 	li $v0, 43
 	syscall
-	# Número aleatorio va desde 0.0 hasta 1.0
 	
-	c.le.s $f0, $f9 # hacer que el número sea menor que 0.40
+	c.le.s $f0, $f9 # validate that the random float is less than 0.40
 	bc1f phoneGetRandom
 	
-	c.lt.s $f0, $f5 # random < 0.10; si random es menor entonces está mal y tiene que volver a sacar un número aleatorio
+	c.lt.s $f0, $f5 # random < 0.10; if random is not greather than 10
+	# it will loop until it gets a valid float
 	bc1t phoneGetRandom	
 	
 phoneCostRoundNumber:
+	# Formating float number
 	mul.s $f10, $f0, $f13 # multiphy by 100
 	round.w.s $f10, $f10
 	cvt.s.w $f10, $f10
@@ -198,10 +204,12 @@ phoneCall:
 	la $a0, phnCall2
 	syscall
 	
+	# Sleep the program for 3000 mms
 	li $v0, 32
 	li $a0, 3000
 	syscall
 	
+	# Print string phnCall3
 	li $v0, 4
 	la $a0, phnCall3
 	syscall
@@ -224,12 +232,12 @@ phoneCallEnd:
 	syscall
 	
 phoneHourPrint:	
-	# Print hours
+	# Get random integer
 	li $a1, 24 # from 0 to 24 hours
 	li $v0, 42
 	syscall
 
-	# Compare if less than 10 to print a 0 before
+	# Compare if is less than 10 to print a 0 before the number
 	move $t1, $a0
 	slti $t0, $t1, 10
 	beq $t0, $zero, hourRandomPrint
@@ -250,7 +258,7 @@ hourRandomPrint:
 	syscall
 
 phoneMinutePrint:		
-	# Print minutes
+	# Get random integer
 	li $a1, 60
 	li $v0, 42
 	syscall
@@ -276,7 +284,7 @@ minRandomPrint:
 	syscall
 
 phoneSecondPrint:
-	# Print seconds
+	# Get random integer
 	li $a1, 60
 	li $v0, 42
 	syscall
