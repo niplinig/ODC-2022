@@ -33,9 +33,9 @@ The written program does not strictly follow a standard convention.
 
 The first part is the `.data` section. Here you can find all the data used in the programs, for example strings, integers and floats values.
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-18-27-11-image.png)
+![](/images/2022-07-03-18-27-11-image.png)
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-18-27-24-image.png)
+![](/images/2022-07-03-18-27-24-image.png)
 
 > We know there are better ways to store some values for later use, but we agreed to put all the data here for ease of use.
 
@@ -43,17 +43,17 @@ The first part is the `.data` section. Here you can find all the data used in th
 
 This is the code, there are comments explaning part of the code. Each section is label for easy identification.
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-18-40-27-image.png)
+![](/images/2022-07-03-18-40-27-image.png)
 
 First we load the values from the data section to the actual program, so we can reference it later.
 
 Then we validate the input, comparing it the correct values
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-18-48-04-image.png)
+![](/images/2022-07-03-18-48-04-image.png)
 
 After that we sum the values and show it to the screen.
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-18-48-44-image.png)
+![](/images/2022-07-03-18-48-44-image.png)
 
 
 
@@ -69,21 +69,21 @@ After that we sum the values and show it to the screen.
 
 - Once the program is running it the bottom part of MARS should look like this
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-17-40-01-image.png)
+![](/images/2022-07-03-17-40-01-image.png)
 
 - Enter a value and press the ↵ Return key
 
 - It will continue requesting until completing the amount of 0.40 dollars or 40 cents
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-17-43-28-image.png)
+![](/images/2022-07-03-17-43-28-image.png)
 
 - If an invalid value was entered it will show a message
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-17-43-53-image.png)
+![](/images/2022-07-03-17-43-53-image.png)
 
 - Once the amount of 40 cents has been completed, you will be asked the following
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-17-46-06-image.png)
+![](/images/2022-07-03-17-46-06-image.png)
 
 - If you enter 1, you may continue entering more values as before
 
@@ -91,20 +91,20 @@ After that we sum the values and show it to the screen.
 
 - Then it will ask for a phone number you want to call
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-17-53-07-image.png)
+![](/images/2022-07-03-17-53-07-image.png)
 
 - It will continue requesting until you entered an integer value with 9 digits
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-17-57-53-image.png)
+![](/images/2022-07-03-17-57-53-image.png)
 
 - Once a valid value is entered it will start calling
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-17-59-13-image.png)
+![](/images/2022-07-03-17-59-13-image.png)
 
 - After the call the program will show the cost and duration of the call, the change to be given and a goodby message
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-18-03-50-image.png)
+![](/images/2022-07-03-18-03-50-image.png)
 
 - The program stops excecuting, you need to Assamble it to run it again
 
-![](/home/fedora/.var/app/com.github.marktext.marktext/config/marktext/images/2022-07-03-18-05-10-image.png)
+![](/images/2022-07-03-18-05-10-image.png)
