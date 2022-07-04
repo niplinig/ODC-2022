@@ -17,10 +17,10 @@ This is a CLI (Command Line Interface) telephone box program written in MIPS usi
 
 ### Considerations in mind
 
-- You need to have MARS 4.5 or above to run this program (more info [visit the Running the program section](#Running the program))
+- You need to have MARS 4.5 or above to run this program (more info ![visit the Running the program section](#Running the program))
 - The program doesn't accept text as an input just numbers (integers an decimals)
 - The program validates the input of cents (0.05, 0.10, 0.50 and 1.00 coins) and phone number (9 digits)
-- The user have no control of when the call is finished, the program just sleep for 3 seconds (more info [visit the Code explanation section](#Code explanation))
+- The user have no control of when the call is finished, the program just sleep for 3 seconds (more info ![visit the Code explanation section](#Code explanation))
 - The duration of the call that is shown isn't calculated is random (in hh:mm:ss format)
 - The cost of the call that is shown isn't calculated is random (from 0.10 to 0.40 dollars)
 - The change given is calculated base on the total amount entered minus the cost of the call ($amount\ entered - total\ cost = change$) 
